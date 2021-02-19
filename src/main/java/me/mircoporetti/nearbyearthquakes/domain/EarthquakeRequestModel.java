@@ -1,5 +1,7 @@
 package me.mircoporetti.nearbyearthquakes.domain;
 
+import java.util.Objects;
+
 public class EarthquakeRequestModel {
 
     private final double lat;
@@ -16,5 +18,18 @@ public class EarthquakeRequestModel {
 
     public double getLon() {
         return lon;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EarthquakeRequestModel that = (EarthquakeRequestModel) o;
+        return Double.compare(that.lat, lat) == 0 && Double.compare(that.lon, lon) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lat, lon);
     }
 }

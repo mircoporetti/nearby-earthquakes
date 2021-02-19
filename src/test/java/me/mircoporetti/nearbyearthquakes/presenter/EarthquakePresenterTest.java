@@ -1,5 +1,6 @@
 package me.mircoporetti.nearbyearthquakes.presenter;
 
+import me.mircoporetti.nearbyearthquakes.domain.EarthquakeRequestModel;
 import me.mircoporetti.nearbyearthquakes.domain.EarthquakeResponseModel;
 import me.mircoporetti.nearbyearthquakes.domain.NearbyEarthquakesUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,9 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 class EarthquakePresenterTest {
@@ -29,15 +31,23 @@ class EarthquakePresenterTest {
     }
 
     @Test
-    void retrieveNearbyEarthquakes() {
+    void getNearbyEarthquakes() {
 
         EarthquakeResponseModel earthquakeResponseModel = new EarthquakeResponseModel(1.3, "Somewhere", 100);
         List<EarthquakeResponseModel> expected = Collections.singletonList(earthquakeResponseModel);
 
-        doReturn(expected).when(nearbyEarthquakesUseCase).execute(any());
+        doReturn(expected).when(nearbyEarthquakesUseCase).execute(new EarthquakeRequestModel(0.0, 0.0));
 
-        List<String> result = underTest.getNearbyEarthquakes(0.000000, 0.000000);
+        List<String> result = underTest.getNearbyEarthquakes("0.000000", "0.000000");
 
         assertThat(result, is(Collections.singletonList("M 1.3 - Somewhere || 100")));
+    }
+
+    @Test
+    void notValidLat() {
+
+        assertThrows(CoordinateFormatException.class, () -> underTest.getNearbyEarthquakes("aLat", "0.000000"));
+
+        verify(nearbyEarthquakesUseCase, never()).execute(any());
     }
 }

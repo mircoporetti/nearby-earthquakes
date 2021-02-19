@@ -9,14 +9,22 @@ import java.util.stream.Collectors;
 
 public class EarthquakePresenter {
 
-    private NearbyEarthquakesUseCase nearbyEarthquakesUseCase;
+    private final NearbyEarthquakesUseCase nearbyEarthquakesUseCase;
 
     public EarthquakePresenter(NearbyEarthquakesUseCase nearbyEarthquakesUseCase) {
         this.nearbyEarthquakesUseCase = nearbyEarthquakesUseCase;
     }
 
-    public List<String> getNearbyEarthquakes(double lat, double lon) {
-        List<EarthquakeResponseModel> nearbyEarthquakes = nearbyEarthquakesUseCase.execute(new EarthquakeRequestModel(lat, lon));
+    public List<String> getNearbyEarthquakes(String lat, String lon) {
+        EarthquakeRequestModel requestModel;
+        try {
+           requestModel = new EarthquakeRequestModel(Double.parseDouble(lat), Double.parseDouble(lon));
+        }catch(NumberFormatException e){
+            throw new CoordinateFormatException(e.getMessage());
+        }
+
+        List<EarthquakeResponseModel> nearbyEarthquakes =
+                nearbyEarthquakesUseCase.execute(requestModel);
 
         return nearbyEarthquakes.stream().map(
                 earthquake -> "M " + earthquake.getMagnitude() + " - " + earthquake.getPlace() + " || " + earthquake.getDistance())
