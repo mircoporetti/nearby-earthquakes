@@ -50,4 +50,12 @@ class EarthquakePresenterTest {
 
         verify(nearbyEarthquakesUseCase, never()).execute(any());
     }
+
+    @Test
+    void notValidLon() {
+
+        assertThrows(CoordinateFormatException.class, () -> underTest.getNearbyEarthquakes("0.000000", "aLon"));
+
+        verify(nearbyEarthquakesUseCase, never()).execute(any());
+    }
 }
