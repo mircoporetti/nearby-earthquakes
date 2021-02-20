@@ -3,10 +3,12 @@ package me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.Earthquake;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.port.USGSEarthquakePort;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 
 public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
     private final USGSEarthquakePort usgsEarthquakePort;
@@ -19,15 +21,18 @@ public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
     public List<EarthquakeResponseModel> execute(NearbyEarthquakesCoordinateRequestModel coordinateRequestModel) {
         if(coordinateRequestModel.isAValidEarthCoordinate()){
             List<Earthquake> lastThirtyDaysEarthquakes = usgsEarthquakePort.getLastThirtyDaysEarthquakes();
-                if(lastThirtyDaysEarthquakes.isEmpty()){
-                    return emptyList();
-                } else{
-                    EarthquakeResponseModel earthquakeResponse = new EarthquakeResponseModel(
-                            lastThirtyDaysEarthquakes.get(0).getMagnitude(),
-                            lastThirtyDaysEarthquakes.get(0).getPlace(),
-                            lastThirtyDaysEarthquakes.get(0).calculateDistanceFrom(coordinateRequestModel.getLat(), coordinateRequestModel.getLon()));
-                    return singletonList(earthquakeResponse);
-                }
+            if(lastThirtyDaysEarthquakes.isEmpty()){
+                return emptyList();
+            } else{
+                return lastThirtyDaysEarthquakes
+                        .stream()
+                        .map(earthquake -> new EarthquakeResponseModel(
+                                earthquake.getMagnitude(),
+                                earthquake.getPlace(),
+                                earthquake.calculateDistanceFrom(coordinateRequestModel.getLat(), coordinateRequestModel.getLon())))
+                        .sorted(Comparator.comparingInt(EarthquakeResponseModel::getDistance))
+                        .collect(Collectors.toList());
+            }
         }else{
             throw new NotAnEarthCoordinateException(
                     String.format("Given lat: %s lon: %s is not a valid earth coordinate",
