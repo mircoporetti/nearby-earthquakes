@@ -4,7 +4,7 @@ public class Earthquake {
 
 
     private EarthCoordinate coordinate;
-    private int magnitude;
+    private double magnitude;
     private String place;
 
     public Earthquake(EarthCoordinate coordinate, int magnitude, String place) {
@@ -13,7 +13,7 @@ public class Earthquake {
         this.place = place;
     }
 
-    public int getMagnitude() {
+    public double getMagnitude() {
         return magnitude;
     }
 

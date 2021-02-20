@@ -1,7 +1,5 @@
 package me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase;
 
-import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthCoordinate;
-import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.Earthquake;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.port.USGSEarthquakePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +10,9 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthCoordinateBuilder.*;
-import static me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthquakeBuilder.*;
-import static me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.EarthquakeResponseModelBuilder.*;
+import static me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthCoordinateBuilder.anEarthCoordinate;
+import static me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthquakeBuilder.anEarthquake;
+import static me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.EarthquakeResponseModelBuilder.anEarthquakeResponseModel;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
