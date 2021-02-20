@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class EarthquakeResponseModel {
 
-    private double magnitude;
-    private String place;
-    private int distance;
+    private final double magnitude;
+    private final String place;
+    private final int distance;
 
     public EarthquakeResponseModel(double magnitude, String place, int distance) {
         this.magnitude = magnitude;

@@ -3,9 +3,9 @@ package me.mircoporetti.nearbyearthquakes.domain.earthquake.entity;
 public class Earthquake {
 
 
-    private EarthCoordinate coordinate;
-    private double magnitude;
-    private String place;
+    private final EarthCoordinate coordinate;
+    private final double magnitude;
+    private final String place;
 
     public Earthquake(EarthCoordinate coordinate, int magnitude, String place) {
         this.coordinate = coordinate;
