@@ -2,7 +2,6 @@ package me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase;
 
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthCoordinate;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.Earthquake;
-import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthquakeBuilder;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.port.USGSEarthquakePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthCoordinateBuilder.*;
 import static me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthquakeBuilder.*;
+import static me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.EarthquakeResponseModelBuilder.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -55,10 +55,12 @@ class NearbyEarthquakesUseCaseTest {
 
     @Test
     void anEarthquakeWithSameCoordinate() {
-        doReturn(singletonList(new Earthquake(new EarthCoordinate(0.0, 0.0), 4, "Somewhere")))
-                .when(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
 
-        NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(0.0, 0.0);
+        doReturn(singletonList(
+                anEarthquake().withCoordinate(anEarthCoordinate().withLat(10.0).withLon(10.0).build()).withMagnitude(4).withPlace("Somewhere").build()
+        )).when(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
+
+        NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(10.0, 10.0);
 
         List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
@@ -67,33 +69,34 @@ class NearbyEarthquakesUseCaseTest {
 
     @Test
     void anEarthquakeWithDifferentCoordinate() {
-        doReturn(singletonList(new Earthquake(new EarthCoordinate(-60.0, 10.3), 4, "Somewhere")))
-                .when(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
-
-        NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(-40.3, 4.2);
-
-        List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
-
-        assertThat(result, is(singletonList(new EarthquakeResponseModel(4, "Somewhere", 2230))));
-    }
-
-    @Test
-    void twoEarthquakesWithDifferentCoordinate() {
-        doReturn(asList(
-                anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(10.3).build()).build(),
-                anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(4.3).build()).build()
+        doReturn(singletonList(
+                anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(10.3).build()).build()
         )).when(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
 
         NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(-40.3, 4.2);
 
         List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
-        assertThat(result.get(0), is(new EarthquakeResponseModel(0.0, "aPlace", 2190)));
-        assertThat(result.get(1), is(new EarthquakeResponseModel(0.0, "aPlace", 2230)));
+        assertThat(result, is(singletonList(anEarthquakeResponseModel().withDistance(2230).build())));
     }
 
     @Test
-    void nearbyTenEarthquakesOfEleven() {
+    void twoEarthquakesWithDifferentCoordinate() {
+        doReturn(asList(
+                anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(10.3).build()).withMagnitude(3).withPlace("Somewhere").build(),
+                anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(4.3).build()).withMagnitude(4).withPlace("Somewhere else").build()
+        )).when(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
+
+        NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(-40.3, 4.2);
+
+        List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
+
+        assertThat(result.get(0), is(anEarthquakeResponseModel().withDistance(2190).withMagnitude(4).withPlace("Somewhere else").build()));
+        assertThat(result.get(1), is(anEarthquakeResponseModel().withDistance(2230).withMagnitude(3).withPlace("Somewhere").build()));
+    }
+
+    @Test
+    void firstTenNearbyEarthquakesOfEleven() {
         doReturn(asList(
                 anEarthquake().withCoordinate(anEarthCoordinate().withLat(60.0).withLon(-5.1).build()).build(),
                 anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(4.3).build()).build(),
@@ -113,15 +116,15 @@ class NearbyEarthquakesUseCaseTest {
         List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
         assertThat(result.size(), is(10));
-        assertThat(result.get(0), is(new EarthquakeResponseModel(0.0, "aPlace", 1243)));
-        assertThat(result.get(1), is(new EarthquakeResponseModel(0.0, "aPlace", 2190)));
-        assertThat(result.get(2), is(new EarthquakeResponseModel(0.0, "aPlace", 2644)));
-        assertThat(result.get(3), is(new EarthquakeResponseModel(0.0, "aPlace", 4737)));
-        assertThat(result.get(4), is(new EarthquakeResponseModel(0.0, "aPlace", 6719)));
-        assertThat(result.get(5), is(new EarthquakeResponseModel(0.0, "aPlace", 7839)));
-        assertThat(result.get(6), is(new EarthquakeResponseModel(0.0, "aPlace", 8668)));
-        assertThat(result.get(7), is(new EarthquakeResponseModel(0.0, "aPlace", 8758)));
-        assertThat(result.get(8), is(new EarthquakeResponseModel(0.0, "aPlace", 9503)));
-        assertThat(result.get(9), is(new EarthquakeResponseModel(0.0, "aPlace", 11185)));
+        assertThat(result.get(0), is(anEarthquakeResponseModel().withDistance(1243).build()));
+        assertThat(result.get(1), is(anEarthquakeResponseModel().withDistance(2190).build()));
+        assertThat(result.get(2), is(anEarthquakeResponseModel().withDistance(2644).build()));
+        assertThat(result.get(3), is(anEarthquakeResponseModel().withDistance(4737).build()));
+        assertThat(result.get(4), is(anEarthquakeResponseModel().withDistance(6719).build()));
+        assertThat(result.get(5), is(anEarthquakeResponseModel().withDistance(7839).build()));
+        assertThat(result.get(6), is(anEarthquakeResponseModel().withDistance(8668).build()));
+        assertThat(result.get(7), is(anEarthquakeResponseModel().withDistance(8758).build()));
+        assertThat(result.get(8), is(anEarthquakeResponseModel().withDistance(9503).build()));
+        assertThat(result.get(9), is(anEarthquakeResponseModel().withDistance(11185).build()));
     }
 }
