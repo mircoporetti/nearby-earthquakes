@@ -15,16 +15,16 @@ public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
     }
 
     @Override
-    public List<EarthquakeResponseModel> execute(NearbyEarthquakesCoordinateRequestModel coordinateRequestModel) {
+    public List<NearbyEarthquakeResponseModel> execute(NearbyEarthquakesCoordinateRequestModel coordinateRequestModel) {
         if(coordinateRequestModel.isAValidEarthCoordinate()){
             List<Earthquake> lastThirtyDaysEarthquakes = usgsEarthquakePort.getLastThirtyDaysEarthquakes();
                 return lastThirtyDaysEarthquakes
                         .stream()
-                        .map(earthquake -> new EarthquakeResponseModel(
+                        .map(earthquake -> new NearbyEarthquakeResponseModel(
                                 earthquake.getMagnitude(),
                                 earthquake.getPlace(),
                                 earthquake.calculateDistanceFrom(coordinateRequestModel.getLat(), coordinateRequestModel.getLon())))
-                        .sorted(Comparator.comparingInt(EarthquakeResponseModel::getDistance))
+                        .sorted(Comparator.comparingInt(NearbyEarthquakeResponseModel::getDistance))
                         .limit(10)
                         .collect(Collectors.toList());
         }else{

@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface NearbyEarthquakesUseCase {
 
-    List<EarthquakeResponseModel> execute(NearbyEarthquakesCoordinateRequestModel requestModel);
+    List<NearbyEarthquakeResponseModel> execute(NearbyEarthquakesCoordinateRequestModel requestModel);
 }

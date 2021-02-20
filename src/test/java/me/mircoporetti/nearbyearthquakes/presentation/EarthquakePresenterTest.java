@@ -1,7 +1,7 @@
 package me.mircoporetti.nearbyearthquakes.presentation;
 
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakesCoordinateRequestModel;
-import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.EarthquakeResponseModel;
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakeResponseModel;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakesUseCase;
 import me.mircoporetti.nearbyearthquakes.presentation.earthquake.CoordinateFormatException;
 import me.mircoporetti.nearbyearthquakes.presentation.earthquake.CoordinateMessageRequest;
@@ -36,8 +36,8 @@ class EarthquakePresenterTest {
     @Test
     void getNearbyEarthquakes() {
 
-        EarthquakeResponseModel earthquakeResponseModel = new EarthquakeResponseModel(1.3, "Somewhere", 100);
-        List<EarthquakeResponseModel> expected = Collections.singletonList(earthquakeResponseModel);
+        NearbyEarthquakeResponseModel nearbyEarthquakeResponseModel = new NearbyEarthquakeResponseModel(1.3, "Somewhere", 100);
+        List<NearbyEarthquakeResponseModel> expected = Collections.singletonList(nearbyEarthquakeResponseModel);
 
         doReturn(expected).when(nearbyEarthquakesUseCase).execute(new NearbyEarthquakesCoordinateRequestModel(0.324324, 45.3224));
 

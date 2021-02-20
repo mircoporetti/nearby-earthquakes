@@ -1,7 +1,7 @@
 package me.mircoporetti.nearbyearthquakes.presentation.earthquake;
 
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakesCoordinateRequestModel;
-import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.EarthquakeResponseModel;
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakeResponseModel;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakesUseCase;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class EarthquakePresenter {
             throw new CoordinateFormatException(e.getMessage());
         }
 
-        List<EarthquakeResponseModel> nearbyEarthquakes =
+        List<NearbyEarthquakeResponseModel> nearbyEarthquakes =
                 nearbyEarthquakesUseCase.execute(requestModel);
 
         return nearbyEarthquakes.stream().map(

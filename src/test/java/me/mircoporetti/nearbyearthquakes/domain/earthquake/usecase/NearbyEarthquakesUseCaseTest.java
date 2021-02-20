@@ -45,7 +45,7 @@ class NearbyEarthquakesUseCaseTest {
 
         NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(0.0, 0.0);
 
-        List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
+        List<NearbyEarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
         verify(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
         assertThat(result, is(emptyList()));
@@ -60,9 +60,9 @@ class NearbyEarthquakesUseCaseTest {
 
         NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(10.0, 10.0);
 
-        List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
+        List<NearbyEarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
-        assertThat(result, is(singletonList(new EarthquakeResponseModel(4, "Somewhere", 0))));
+        assertThat(result, is(singletonList(new NearbyEarthquakeResponseModel(4, "Somewhere", 0))));
     }
 
     @Test
@@ -73,7 +73,7 @@ class NearbyEarthquakesUseCaseTest {
 
         NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(-40.3, 4.2);
 
-        List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
+        List<NearbyEarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
         assertThat(result, is(singletonList(anEarthquakeResponseModel().withDistance(2230).build())));
     }
@@ -87,7 +87,7 @@ class NearbyEarthquakesUseCaseTest {
 
         NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(-40.3, 4.2);
 
-        List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
+        List<NearbyEarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
         assertThat(result.get(0), is(anEarthquakeResponseModel().withDistance(2190).withMagnitude(4).withPlace("Somewhere else").build()));
         assertThat(result.get(1), is(anEarthquakeResponseModel().withDistance(2230).withMagnitude(3).withPlace("Somewhere").build()));
@@ -111,7 +111,7 @@ class NearbyEarthquakesUseCaseTest {
 
         NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(-40.3, 4.2);
 
-        List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
+        List<NearbyEarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
         assertThat(result.size(), is(10));
         assertThat(result.get(0), is(anEarthquakeResponseModel().withDistance(1243).build()));

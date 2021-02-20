@@ -2,13 +2,13 @@ package me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase;
 
 import java.util.Objects;
 
-public class EarthquakeResponseModel {
+public class NearbyEarthquakeResponseModel {
 
     private final double magnitude;
     private final String place;
     private final int distance;
 
-    public EarthquakeResponseModel(double magnitude, String place, int distance) {
+    public NearbyEarthquakeResponseModel(double magnitude, String place, int distance) {
         this.magnitude = magnitude;
         this.place = place;
         this.distance = distance;
@@ -30,7 +30,7 @@ public class EarthquakeResponseModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EarthquakeResponseModel that = (EarthquakeResponseModel) o;
+        NearbyEarthquakeResponseModel that = (NearbyEarthquakeResponseModel) o;
         return Double.compare(that.magnitude, magnitude) == 0 && distance == that.distance && Objects.equals(place, that.place);
     }
 

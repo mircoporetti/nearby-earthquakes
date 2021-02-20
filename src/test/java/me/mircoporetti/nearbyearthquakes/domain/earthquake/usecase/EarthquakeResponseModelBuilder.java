@@ -14,8 +14,8 @@ public class EarthquakeResponseModelBuilder {
         return this;
     }
 
-    public EarthquakeResponseModel build() {
-        return new EarthquakeResponseModel(magnitude,place,distance);
+    public NearbyEarthquakeResponseModel build() {
+        return new NearbyEarthquakeResponseModel(magnitude,place,distance);
     }
 
     public EarthquakeResponseModelBuilder withMagnitude(double magnitude) {
