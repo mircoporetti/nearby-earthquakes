@@ -13,15 +13,15 @@ public class Earthquake {
         this.place = place;
     }
 
-    public EarthCoordinate getCoordinate() {
-        return coordinate;
-    }
-
     public int getMagnitude() {
         return magnitude;
     }
 
     public String getPlace() {
         return place;
+    }
+
+    public int calculateDistanceFrom(double lat, double lon) {
+        return coordinate.distanceFrom(lat,lon);
     }
 }

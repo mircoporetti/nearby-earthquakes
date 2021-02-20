@@ -62,4 +62,16 @@ class NearbyEarthquakesUseCaseTest {
 
         assertThat(result, is(singletonList(new EarthquakeResponseModel(4, "Somewhere", 0))));
     }
+
+    @Test
+    void anEarthquakeWithDifferentCoordinate() {
+        doReturn(singletonList(new Earthquake(new EarthCoordinate(-60.0, 10.3), 4, "Somewhere")))
+                .when(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
+
+        NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(-40.3, 4.2);
+
+        List<EarthquakeResponseModel> result = underTest.execute(givenCoordinate);
+
+        assertThat(result, is(singletonList(new EarthquakeResponseModel(4, "Somewhere", 2230))));
+    }
 }

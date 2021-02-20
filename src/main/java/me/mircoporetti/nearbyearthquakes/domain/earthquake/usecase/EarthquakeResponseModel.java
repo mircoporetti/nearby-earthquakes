@@ -38,4 +38,13 @@ public class EarthquakeResponseModel {
     public int hashCode() {
         return Objects.hash(magnitude, place, distance);
     }
+
+    @Override
+    public String toString() {
+        return "EarthquakeResponseModel{" +
+                "magnitude=" + magnitude +
+                ", place='" + place + '\'' +
+                ", distance=" + distance +
+                '}';
+    }
 }

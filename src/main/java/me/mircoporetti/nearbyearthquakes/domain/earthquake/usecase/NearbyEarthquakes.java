@@ -19,10 +19,15 @@ public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
     public List<EarthquakeResponseModel> execute(NearbyEarthquakesCoordinateRequestModel coordinateRequestModel) {
         if(coordinateRequestModel.isAValidEarthCoordinate()){
             List<Earthquake> lastThirtyDaysEarthquakes = usgsEarthquakePort.getLastThirtyDaysEarthquakes();
-                if(lastThirtyDaysEarthquakes.isEmpty())
+                if(lastThirtyDaysEarthquakes.isEmpty()){
                     return emptyList();
-                else
-                    return singletonList(new EarthquakeResponseModel(lastThirtyDaysEarthquakes.get(0).getMagnitude(), lastThirtyDaysEarthquakes.get(0).getPlace(), 0));
+                } else{
+                    EarthquakeResponseModel earthquakeResponse = new EarthquakeResponseModel(
+                            lastThirtyDaysEarthquakes.get(0).getMagnitude(),
+                            lastThirtyDaysEarthquakes.get(0).getPlace(),
+                            lastThirtyDaysEarthquakes.get(0).calculateDistanceFrom(coordinateRequestModel.getLat(), coordinateRequestModel.getLon()));
+                    return singletonList(earthquakeResponse);
+                }
         }else{
             throw new NotAnEarthCoordinateException(
                     String.format("Given lat: %s lon: %s is not a valid earth coordinate",
