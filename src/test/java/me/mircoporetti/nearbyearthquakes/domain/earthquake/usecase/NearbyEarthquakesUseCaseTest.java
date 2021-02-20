@@ -52,7 +52,7 @@ class NearbyEarthquakesUseCaseTest {
     }
 
     @Test
-    void anEarthquakeWithSameCoordinate() {
+    void anEarthquakeWithZeroDistance() {
 
         doReturn(singletonList(
                 anEarthquake().withCoordinate(anEarthCoordinate().withLat(10.0).withLon(10.0).build()).withMagnitude(4).withPlace("Somewhere").build()
@@ -66,7 +66,7 @@ class NearbyEarthquakesUseCaseTest {
     }
 
     @Test
-    void anEarthquakeWithDifferentCoordinate() {
+    void anEarthquakeWithNonZeroDistance() {
         doReturn(singletonList(
                 anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(10.3).build()).build()
         )).when(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
@@ -91,6 +91,20 @@ class NearbyEarthquakesUseCaseTest {
 
         assertThat(result.get(0), is(anEarthquakeResponseModel().withDistance(2190).withMagnitude(4).withPlace("Somewhere else").build()));
         assertThat(result.get(1), is(anEarthquakeResponseModel().withDistance(2230).withMagnitude(3).withPlace("Somewhere").build()));
+    }
+
+    @Test
+    void twoEarthquakesWithSameCoordinate() {
+        doReturn(asList(
+                anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(10.3).build()).withMagnitude(3).withPlace("Somewhere").build(),
+                anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(10.3).build()).withMagnitude(4).withPlace("Somewhere else").build()
+        )).when(usgsEarthquakePort).getLastThirtyDaysEarthquakes();
+
+        NearbyEarthquakesCoordinateRequestModel givenCoordinate = new NearbyEarthquakesCoordinateRequestModel(-40.3, 4.2);
+
+        List<NearbyEarthquakeResponseModel> result = underTest.execute(givenCoordinate);
+
+        assertThat(result.size(), is(1));
     }
 
     @Test

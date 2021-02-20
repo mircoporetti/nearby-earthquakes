@@ -15,6 +15,10 @@ public class Earthquake {
         this.place = place;
     }
 
+    public EarthCoordinate getCoordinate() {
+        return coordinate;
+    }
+
     public double getMagnitude() {
         return magnitude;
     }
