@@ -4,7 +4,7 @@ import static me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthCo
 
 public class EarthquakeBuilder {
     private EarthCoordinate coordinate = anEarthCoordinate().build();
-    private int magnitude = 0;
+    private double magnitude = 0;
     private String place = "aPlace";
 
     public static EarthquakeBuilder anEarthquake() {
@@ -16,7 +16,7 @@ public class EarthquakeBuilder {
         return this;
     }
 
-    public EarthquakeBuilder withMagnitude(int magnitude) {
+    public EarthquakeBuilder withMagnitude(double magnitude) {
         this.magnitude = magnitude;
         return this;
     }

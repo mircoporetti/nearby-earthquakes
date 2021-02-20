@@ -1,5 +1,7 @@
 package me.mircoporetti.nearbyearthquakes.domain.earthquake.entity;
 
+import java.util.Objects;
+
 public class EarthCoordinate {
     private final double lat;
     private final double lon;
@@ -26,5 +28,18 @@ public class EarthCoordinate {
             double r = 6371;
 
             return (int) (c * r);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EarthCoordinate that = (EarthCoordinate) o;
+        return Double.compare(that.lat, lat) == 0 && Double.compare(that.lon, lon) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lat, lon);
     }
 }
