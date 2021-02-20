@@ -3,7 +3,6 @@ package me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.Earthquake;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.port.USGSEarthquakePort;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;

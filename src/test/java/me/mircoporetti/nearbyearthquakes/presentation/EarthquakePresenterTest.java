@@ -39,9 +39,9 @@ class EarthquakePresenterTest {
         EarthquakeResponseModel earthquakeResponseModel = new EarthquakeResponseModel(1.3, "Somewhere", 100);
         List<EarthquakeResponseModel> expected = Collections.singletonList(earthquakeResponseModel);
 
-        doReturn(expected).when(nearbyEarthquakesUseCase).execute(new NearbyEarthquakesCoordinateRequestModel(0.0, 0.0));
+        doReturn(expected).when(nearbyEarthquakesUseCase).execute(new NearbyEarthquakesCoordinateRequestModel(0.324324, 45.3224));
 
-        List<String> result = underTest.getNearbyEarthquakes(new CoordinateMessageRequest("0.000000", "0.000000"));
+        List<String> result = underTest.getNearbyEarthquakes(new CoordinateMessageRequest("0.324324", "45.3224"));
 
         assertThat(result, is(Collections.singletonList("M 1.3 - Somewhere || 100")));
     }
