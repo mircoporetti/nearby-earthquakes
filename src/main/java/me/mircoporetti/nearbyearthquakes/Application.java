@@ -17,14 +17,8 @@ import java.util.List;
 
 public class Application {
 
-    public static void main(String[] args) {
-
-        String usgsUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
-        ObjectMapper objectMapper = new ObjectMapper();
-        RestClient restClient = new USGSEarthquakeRestClient(objectMapper, usgsUrl);
-        USGSEarthquakePort usgsEarthquakePort = new USGSEarthquakeRestAdapter(restClient);
-        NearbyEarthquakesUseCase nearbyEarthquakesUseCase = new NearbyEarthquakes(usgsEarthquakePort);
-        EarthquakePresenter earthquakePresenter = new EarthquakePresenter(nearbyEarthquakesUseCase);
+    public static void main(String[] args) throws IOException {
+        EarthquakePresenter earthquakePresenter = initializeApplicationComponents();
 
         System.out.println("Write a latitude value");
         String lat = readFromStandardInput();
@@ -35,6 +29,18 @@ public class Application {
         List<String> nearbyEarthquakesResult = earthquakePresenter.getNearbyEarthquakes(new CoordinateMessageRequest(lat, lon));
 
         nearbyEarthquakesResult.forEach(System.out::println);
+    }
+
+    private static EarthquakePresenter initializeApplicationComponents() throws IOException {
+        NearbyEarthquakesProperty properties = new NearbyEarthquakesProperty();
+        properties.getProperties();
+
+        String usgsUrl = properties.getProperties().getProperty("usgsUrl");
+        ObjectMapper objectMapper = new ObjectMapper();
+        RestClient restClient = new USGSEarthquakeRestClient(objectMapper, usgsUrl);
+        USGSEarthquakePort usgsEarthquakePort = new USGSEarthquakeRestAdapter(restClient);
+        NearbyEarthquakesUseCase nearbyEarthquakesUseCase = new NearbyEarthquakes(usgsEarthquakePort);
+        return new EarthquakePresenter(nearbyEarthquakesUseCase);
     }
 
     public static String readFromStandardInput() {
