@@ -31,6 +31,7 @@ public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
                                 earthquake.getPlace(),
                                 earthquake.calculateDistanceFrom(coordinateRequestModel.getLat(), coordinateRequestModel.getLon())))
                         .sorted(Comparator.comparingInt(EarthquakeResponseModel::getDistance))
+                        .limit(10)
                         .collect(Collectors.toList());
             }
         }else{
