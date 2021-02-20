@@ -6,9 +6,9 @@ import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthqu
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakesUseCase;
 import me.mircoporetti.nearbyearthquakes.presentation.earthquake.CoordinateMessageRequest;
 import me.mircoporetti.nearbyearthquakes.presentation.earthquake.EarthquakePresenter;
-import me.mircoporetti.nearbyearthquakes.usgsadapter.earthquake.RestClient;
-import me.mircoporetti.nearbyearthquakes.usgsadapter.earthquake.USGSEarthquakeRestAdapter;
-import me.mircoporetti.nearbyearthquakes.usgsadapter.earthquake.USGSEarthquakeRestClient;
+import me.mircoporetti.nearbyearthquakes.usgs_adapter.earthquake.RestClient;
+import me.mircoporetti.nearbyearthquakes.usgs_adapter.earthquake.USGSEarthquakeRestAdapter;
+import me.mircoporetti.nearbyearthquakes.usgs_adapter.earthquake.USGSEarthquakeRestClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;

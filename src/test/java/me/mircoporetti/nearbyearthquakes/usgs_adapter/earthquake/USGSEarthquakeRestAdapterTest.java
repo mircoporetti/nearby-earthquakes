@@ -1,4 +1,4 @@
-package me.mircoporetti.nearbyearthquakes.usgsadapter.earthquake;
+package me.mircoporetti.nearbyearthquakes.usgs_adapter.earthquake;
 
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.Earthquake;
 import org.junit.jupiter.api.BeforeEach;

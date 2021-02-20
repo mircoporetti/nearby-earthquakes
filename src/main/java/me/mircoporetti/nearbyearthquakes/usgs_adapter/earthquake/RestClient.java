@@ -1,4 +1,4 @@
-package me.mircoporetti.nearbyearthquakes.usgsadapter.earthquake;
+package me.mircoporetti.nearbyearthquakes.usgs_adapter.earthquake;
 
 public interface RestClient {
     USGSResponse findLastThirtyDaysEarthquakes();

@@ -1,4 +1,4 @@
-package me.mircoporetti.nearbyearthquakes.usgsadapter.earthquake;
+package me.mircoporetti.nearbyearthquakes.usgs_adapter.earthquake;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
