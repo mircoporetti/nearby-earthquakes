@@ -1,5 +1,7 @@
 package me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase;
 
+import java.util.Objects;
+
 public class EarthquakeResponseModel {
 
     private final double magnitude;
@@ -22,5 +24,18 @@ public class EarthquakeResponseModel {
 
     public int getDistance() {
         return distance;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EarthquakeResponseModel that = (EarthquakeResponseModel) o;
+        return Double.compare(that.magnitude, magnitude) == 0 && distance == that.distance && Objects.equals(place, that.place);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(magnitude, place, distance);
     }
 }
