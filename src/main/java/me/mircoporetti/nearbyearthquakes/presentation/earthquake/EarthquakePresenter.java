@@ -1,8 +1,8 @@
 package me.mircoporetti.nearbyearthquakes.presentation.earthquake;
 
-import me.mircoporetti.nearbyearthquakes.domain.earthquake.EarthquakeRequestModel;
-import me.mircoporetti.nearbyearthquakes.domain.earthquake.EarthquakeResponseModel;
-import me.mircoporetti.nearbyearthquakes.domain.earthquake.NearbyEarthquakesUseCase;
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakesCoordinateRequestModel;
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.EarthquakeResponseModel;
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakesUseCase;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,9 +16,9 @@ public class EarthquakePresenter {
     }
 
     public List<String> getNearbyEarthquakes(CoordinateMessageRequest messageRequest) {
-        EarthquakeRequestModel requestModel;
+        NearbyEarthquakesCoordinateRequestModel requestModel;
         try {
-           requestModel = new EarthquakeRequestModel(Double.parseDouble(messageRequest.getLat()), Double.parseDouble(messageRequest.getLon()));
+           requestModel = new NearbyEarthquakesCoordinateRequestModel(Double.parseDouble(messageRequest.getLat()), Double.parseDouble(messageRequest.getLon()));
         }catch(NumberFormatException e){
             throw new CoordinateFormatException(e.getMessage());
         }

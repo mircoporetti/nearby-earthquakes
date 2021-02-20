@@ -1,10 +1,10 @@
-package me.mircoporetti.nearbyearthquakes.domain.earthquake;
+package me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase;
 
 public class EarthquakeResponseModel {
 
     private final double magnitude;
     private final String place;
-    private int distance;
+    private final int distance;
 
     public EarthquakeResponseModel(double magnitude, String place, int distance) {
         this.magnitude = magnitude;
