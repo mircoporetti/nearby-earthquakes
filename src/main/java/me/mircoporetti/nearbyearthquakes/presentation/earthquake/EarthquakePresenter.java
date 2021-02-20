@@ -20,7 +20,7 @@ public class EarthquakePresenter {
         try {
            requestModel = new NearbyEarthquakesCoordinateRequestModel(Double.parseDouble(messageRequest.getLat()), Double.parseDouble(messageRequest.getLon()));
         }catch(NumberFormatException e){
-            throw new CoordinateFormatException(e.getMessage());
+            throw new CoordinateFormatException("Lat & Lon must be numeric!");
         }
 
         List<NearbyEarthquakeResponseModel> nearbyEarthquakes =

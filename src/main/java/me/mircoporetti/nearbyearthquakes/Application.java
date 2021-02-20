@@ -27,17 +27,17 @@ public class Application {
         EarthquakePresenter earthquakePresenter = new EarthquakePresenter(nearbyEarthquakesUseCase);
 
         System.out.println("Write a latitude value");
-        String lat = read();
+        String lat = readFromStandardInput();
         System.out.println("Write a longitude value");
-        String lon = read();
-
-        System.out.println("\nWaiting for nearby earthquakes... \n");
+        String lon = readFromStandardInput();
+        System.out.println("\nWaiting for nearby earthquakes' info... \n");
 
         List<String> nearbyEarthquakesResult = earthquakePresenter.getNearbyEarthquakes(new CoordinateMessageRequest(lat, lon));
+
         nearbyEarthquakesResult.forEach(System.out::println);
     }
 
-    public static String read() {
+    public static String readFromStandardInput() {
         String line = "";
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
