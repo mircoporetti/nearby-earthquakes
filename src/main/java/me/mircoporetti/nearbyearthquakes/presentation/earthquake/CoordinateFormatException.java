@@ -1,4 +1,4 @@
-package me.mircoporetti.nearbyearthquakes.presenter;
+package me.mircoporetti.nearbyearthquakes.presentation.earthquake;
 
 public class CoordinateFormatException extends RuntimeException{
     public CoordinateFormatException(String message) {

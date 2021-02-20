@@ -1,8 +1,11 @@
-package me.mircoporetti.nearbyearthquakes.presenter;
+package me.mircoporetti.nearbyearthquakes.presentation;
 
-import me.mircoporetti.nearbyearthquakes.domain.EarthquakeRequestModel;
-import me.mircoporetti.nearbyearthquakes.domain.EarthquakeResponseModel;
-import me.mircoporetti.nearbyearthquakes.domain.NearbyEarthquakesUseCase;
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.EarthquakeRequestModel;
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.EarthquakeResponseModel;
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.NearbyEarthquakesUseCase;
+import me.mircoporetti.nearbyearthquakes.presentation.earthquake.CoordinateFormatException;
+import me.mircoporetti.nearbyearthquakes.presentation.earthquake.CoordinateMessageRequest;
+import me.mircoporetti.nearbyearthquakes.presentation.earthquake.EarthquakePresenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -38,7 +41,7 @@ class EarthquakePresenterTest {
 
         doReturn(expected).when(nearbyEarthquakesUseCase).execute(new EarthquakeRequestModel(0.0, 0.0));
 
-        List<String> result = underTest.getNearbyEarthquakes("0.000000", "0.000000");
+        List<String> result = underTest.getNearbyEarthquakes(new CoordinateMessageRequest("0.000000", "0.000000"));
 
         assertThat(result, is(Collections.singletonList("M 1.3 - Somewhere || 100")));
     }
@@ -46,7 +49,7 @@ class EarthquakePresenterTest {
     @Test
     void notValidLat() {
 
-        assertThrows(CoordinateFormatException.class, () -> underTest.getNearbyEarthquakes("aLat", "0.000000"));
+        assertThrows(CoordinateFormatException.class, () -> underTest.getNearbyEarthquakes(new CoordinateMessageRequest("aLat", "0.000000")));
 
         verify(nearbyEarthquakesUseCase, never()).execute(any());
     }
@@ -54,7 +57,7 @@ class EarthquakePresenterTest {
     @Test
     void notValidLon() {
 
-        assertThrows(CoordinateFormatException.class, () -> underTest.getNearbyEarthquakes("0.000000", "aLon"));
+        assertThrows(CoordinateFormatException.class, () -> underTest.getNearbyEarthquakes(new CoordinateMessageRequest("0.000000", "aLon")));
 
         verify(nearbyEarthquakesUseCase, never()).execute(any());
     }
