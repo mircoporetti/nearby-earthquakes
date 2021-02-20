@@ -10,6 +10,14 @@ import java.time.Duration;
 
 public class USGSEarthquakeRestClient implements RestClient {
 
+    private final ObjectMapper objectMapper;
+    private final String usgsUrl;
+
+    public USGSEarthquakeRestClient(ObjectMapper objectMapper, String usgsUrl) {
+        this.objectMapper = objectMapper;
+        this.usgsUrl = usgsUrl;
+    }
+
     @Override
     public USGSResponse findLastThirtyDaysEarthquakes() {
 
@@ -21,14 +29,13 @@ public class USGSEarthquakeRestClient implements RestClient {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"))
+                .uri(URI.create(usgsUrl))
                 .build();
         try {
             HttpResponse<String> jsonResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(jsonResponse.body(), USGSResponse.class);
         } catch (Exception e) {
-            throw new UsgsRestClientException("Error during rest call to USGS", e);
+            throw new UsgsRestClientException("Error during http call to USGS", e);
         }
     }
 }

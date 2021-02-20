@@ -1,5 +1,6 @@
 package me.mircoporetti.nearbyearthquakes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.port.USGSEarthquakePort;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakes;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase.NearbyEarthquakesUseCase;
@@ -18,7 +19,9 @@ public class Application {
 
     public static void main(String[] args) {
 
-        RestClient restClient = new USGSEarthquakeRestClient();
+        String usgsUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+        ObjectMapper objectMapper = new ObjectMapper();
+        RestClient restClient = new USGSEarthquakeRestClient(objectMapper, usgsUrl);
         USGSEarthquakePort usgsEarthquakePort = new USGSEarthquakeRestAdapter(restClient);
         NearbyEarthquakesUseCase nearbyEarthquakesUseCase = new NearbyEarthquakes(usgsEarthquakePort);
         EarthquakePresenter earthquakePresenter = new EarthquakePresenter(nearbyEarthquakesUseCase);
@@ -28,7 +31,7 @@ public class Application {
         System.out.println("Write a longitude value");
         String lon = read();
 
-        System.out.println("\n Waiting for nearby earthquakes... \n");
+        System.out.println("\nWaiting for nearby earthquakes... \n");
 
         List<String> nearbyEarthquakesResult = earthquakePresenter.getNearbyEarthquakes(new CoordinateMessageRequest(lat, lon));
         nearbyEarthquakesResult.forEach(System.out::println);
