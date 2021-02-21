@@ -11,11 +11,11 @@ public class EarthCoordinate {
         this.lon = lon;
     }
 
-    public int distanceFrom(double requestedLat, double requestedLon) {
+    public int distanceFrom(EarthCoordinate coordinate) {
 
-            double lon1 = Math.toRadians(requestedLon);
+            double lon1 = Math.toRadians(coordinate.lon);
             double lon2 = Math.toRadians(lon);
-            double lat1 = Math.toRadians(requestedLat);
+            double lat1 = Math.toRadians(coordinate.lat);
             double lat2 = Math.toRadians(lat);
 
             double dlon = lon2 - lon1;

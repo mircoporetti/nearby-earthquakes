@@ -1,5 +1,6 @@
 package me.mircoporetti.nearbyearthquakes.domain.earthquake.usecase;
 
+import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.EarthCoordinate;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.entity.Earthquake;
 import me.mircoporetti.nearbyearthquakes.domain.earthquake.port.USGSEarthquakePort;
 
@@ -19,8 +20,8 @@ public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
     }
 
     @Override
-    public List<NearbyEarthquakeResponseModel> execute(NearbyEarthquakesCoordinateRequestModel coordinateRequestModel) {
-        if(coordinateRequestModel.isAValidEarthCoordinate()){
+    public List<NearbyEarthquakeResponseModel> execute(NearbyEarthquakesCoordinateRequestModel coordinateRequest) {
+        if(coordinateRequest.isAValidEarthCoordinate()){
             List<Earthquake> lastThirtyDaysEarthquakes = usgsEarthquakePort.getLastThirtyDaysEarthquakes();
             return lastThirtyDaysEarthquakes
                     .stream()
@@ -28,14 +29,16 @@ public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
                     .map(earthquake -> new NearbyEarthquakeResponseModel(
                             earthquake.getMagnitude(),
                             earthquake.getPlace(),
-                            earthquake.calculateDistanceFrom(coordinateRequestModel.getLat(), coordinateRequestModel.getLon())))
+                            earthquake.calculateDistanceFrom(
+                                    new EarthCoordinate(coordinateRequest.getLat(), coordinateRequest.getLon())
+                            )))
                     .sorted(Comparator.comparingInt(NearbyEarthquakeResponseModel::getDistance))
                     .limit(10)
                     .collect(Collectors.toList());
         }else{
             throw new NotAnEarthCoordinateException(
                     String.format("Given lat: %s lon: %s is not a valid earth coordinate",
-                            coordinateRequestModel.getLat(), coordinateRequestModel.getLon())
+                            coordinateRequest.getLat(), coordinateRequest.getLon())
             );
         }
     }

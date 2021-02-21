@@ -27,8 +27,8 @@ public class Earthquake {
         return place;
     }
 
-    public int calculateDistanceFrom(double lat, double lon) {
-        return coordinate.distanceFrom(lat,lon);
+    public int calculateDistanceFrom(EarthCoordinate coordinate) {
+        return this.coordinate.distanceFrom(coordinate);
     }
 
     @Override
