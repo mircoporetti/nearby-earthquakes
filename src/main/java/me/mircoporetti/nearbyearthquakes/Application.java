@@ -15,6 +15,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+/*
+    I organized the project following a Clean Architecture style.
+    I left the Application class and any configurations as last things to think about.
+    In my opinion it wasn't very interesting to start from this class because there is only an stdin
+    and the stdout of received data. For this reason it made sense to start writing tests from the presenter
+    to then explore the domain logic.
+*/
 public class Application {
 
     public static void main(String[] args) throws IOException {

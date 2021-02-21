@@ -8,6 +8,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+/*
+    The Http call is quite slow. It could be improved for example with calling it
+    at the startup of the application or/and caching it
+*/
 public class USGSEarthquakeRestClient implements RestClient {
 
     private final ObjectMapper objectMapper;

@@ -7,6 +7,12 @@ import me.mircoporetti.nearbyearthquakes.domain.earthquake.port.USGSEarthquakePo
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+    In Clean Architecture it would be ideal to interact with the use cases
+    through a domain response model. In this particular case,
+    I chose to return the domain entity directly because it would be identical
+    to the that model. It's a compromise :)
+*/
 public class USGSEarthquakeRestAdapter implements USGSEarthquakePort {
 
     private final RestClient restClient;

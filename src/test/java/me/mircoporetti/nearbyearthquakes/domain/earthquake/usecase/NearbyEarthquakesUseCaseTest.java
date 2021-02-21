@@ -20,6 +20,12 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+/*
+    I decided here to sometimes use builders (only for testing purpose) because they helped me
+    in creating some models faster. They also improve the readability of the tests
+    focusing only on the properties useful for them.
+*/
+
 class NearbyEarthquakesUseCaseTest {
     @Mock
     USGSEarthquakePort usgsEarthquakePort;
@@ -62,7 +68,7 @@ class NearbyEarthquakesUseCaseTest {
 
         List<NearbyEarthquakeResponseModel> result = underTest.execute(givenCoordinate);
 
-        assertThat(result, is(singletonList(new NearbyEarthquakeResponseModel(4, "Somewhere", 0))));
+        assertThat(result, is(singletonList(anEarthquakeResponseModel().withMagnitude(4).withPlace("Somewhere").withDistance(0).build())));
     }
 
     @Test
