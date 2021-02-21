@@ -1,6 +1,10 @@
 <h2>Instructions</h2>
 Use the following commands from the project root directory to run the application.
 
+<h2>Requirements:</h2>
+- Maven
+- Docker (2a method) or JDK 11(2b method)
+
 <h3>1) Build the application:</h3>
 
     mvn clean package
