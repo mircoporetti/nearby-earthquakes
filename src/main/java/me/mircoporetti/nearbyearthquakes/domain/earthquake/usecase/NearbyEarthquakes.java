@@ -26,12 +26,7 @@ public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
             return lastThirtyDaysEarthquakes
                     .stream()
                     .filter(distinctByKey(Earthquake::getCoordinate))
-                    .map(earthquake -> new NearbyEarthquakeResponseModel(
-                            earthquake.getMagnitude(),
-                            earthquake.getPlace(),
-                            earthquake.calculateDistanceFrom(
-                                    new EarthCoordinate(coordinateRequest.getLat(), coordinateRequest.getLon())
-                            )))
+                    .map(mapToUseCaseResponseModel(coordinateRequest))
                     .sorted(Comparator.comparingInt(NearbyEarthquakeResponseModel::getDistance))
                     .limit(10)
                     .collect(Collectors.toList());
@@ -43,7 +38,16 @@ public class NearbyEarthquakes implements NearbyEarthquakesUseCase{
         }
     }
 
-    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+    private Function<Earthquake, NearbyEarthquakeResponseModel> mapToUseCaseResponseModel(NearbyEarthquakesCoordinateRequestModel coordinateRequest) {
+        return earthquake -> new NearbyEarthquakeResponseModel(
+                earthquake.getMagnitude(),
+                earthquake.getPlace(),
+                earthquake.calculateDistanceFrom(
+                        new EarthCoordinate(coordinateRequest.getLat(), coordinateRequest.getLon())
+                ));
+    }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
         return t -> seen.add(keyExtractor.apply(t));
     }

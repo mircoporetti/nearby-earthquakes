@@ -13,21 +13,22 @@ public class EarthCoordinate {
 
     public int distanceFrom(EarthCoordinate coordinate) {
 
-            double lon1 = Math.toRadians(coordinate.lon);
-            double lon2 = Math.toRadians(lon);
-            double lat1 = Math.toRadians(coordinate.lat);
-            double lat2 = Math.toRadians(lat);
+        double firstLongitude = Math.toRadians(coordinate.lon);
+        double secondLongitude = Math.toRadians(lon);
+        double firstLatitude = Math.toRadians(coordinate.lat);
+        double secondLatitude = Math.toRadians(lat);
 
-            double dlon = lon2 - lon1;
-            double dlat = lat2 - lat1;
-            double a = Math.pow(Math.sin(dlat / 2), 2)
-                    + Math.cos(lat1) * Math.cos(lat2)
-                    * Math.pow(Math.sin(dlon / 2),2);
+        // Haversine formula
+        double longitudeDifference = secondLongitude - firstLongitude;
+        double latitudeDifference = secondLatitude - firstLatitude;
+        double a = Math.pow(Math.sin(latitudeDifference / 2), 2)
+                + Math.cos(firstLatitude) * Math.cos(secondLatitude)
+                * Math.pow(Math.sin(longitudeDifference / 2),2);
+        double c = 2 * Math.asin(Math.sqrt(a));
 
-            double c = 2 * Math.asin(Math.sqrt(a));
-            double r = 6371;
+        double earthRadius = 6371;
 
-            return (int) (c * r);
+        return (int) (c * earthRadius);
     }
 
     @Override
