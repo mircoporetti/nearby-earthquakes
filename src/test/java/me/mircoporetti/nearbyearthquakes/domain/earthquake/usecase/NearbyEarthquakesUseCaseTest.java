@@ -85,7 +85,7 @@ class NearbyEarthquakesUseCaseTest {
     }
 
     @Test
-    void twoEarthquakesWithDifferentCoordinate() {
+    void twoEarthquakesWithDifferentCoordinate_ascSortingByDistance() {
         doReturn(asList(
                 anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(10.3).build()).withMagnitude(3).withPlace("Somewhere").build(),
                 anEarthquake().withCoordinate(anEarthCoordinate().withLat(-60.0).withLon(4.3).build()).withMagnitude(4).withPlace("Somewhere else").build()
