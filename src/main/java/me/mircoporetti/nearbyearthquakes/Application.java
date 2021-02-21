@@ -18,8 +18,9 @@ import java.util.List;
 /*
     I organized the project following a Clean Architecture style.
     I left the Application class and any configurations as last things to think about.
-    In my opinion it wasn't very interesting to start from this class because there is only an stdin
-    and the stdout of received data. For this reason it made sense to start writing tests from the presenter
+    In my opinion it wasn't very interesting to start from this class because there is only standard input reading
+    and the standard output of received data. It would be easy if necessary to add a loop to keep reading inputs or whatever.
+    For this reason it made sense to start writing tests from the presenter
     to then explore the domain logic.
 */
 public class Application {
