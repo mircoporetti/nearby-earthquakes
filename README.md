@@ -31,7 +31,6 @@ title || distance
 Note that if two earthquakes happened in the same location (lat/lon) we only want it to appear only once on the list. 
 
 ## Summary
-We would like the solution to do the following:
 * Read two float numbers from standard input that represent the lat/lon of a city
 * Read a list of earthquakes that happened during last 30 days
 * Calculate distance between given city and each of the earthquakes
@@ -60,10 +59,3 @@ M 1.9 - 13km SW of La Malbaie, Canada || 814
 M 2.4 - 16km N of Lenoir, North Carolina || 840  
 M 2.4 - 12km ESE of Carlisle, Kentucky || 896  
 ```
-
-## How to submit a great solution
-* Make sure input and output are correct. Read requirements carefully. 
-* We will try to run your program. Make sure we will understand how to do it. We don't know the IDE you use, nor run environment you have. Reviewers can have totally different setup, so test with your friend if you're not sure if it will run on different machine. Add RUN.md file that describes how to start it (if not using standard ways to run a program).
-* We will run a formal code review on your solution. Make sure your code is not only correct but also easy to read and reason about. Make it "production ready"-like, the fact that it's just a coding task does not mean you should omit good engineering practices.
-* You can use external libraries but you should only use the tools that are right to do the job. You don't have to build UI,  web aplication or implement database access to get the job done. Showcasing how many libraries or frameworks you know is not the goal of the task.
-* We accept solutions written in one of the following programming languages: `Java`, `Groovy`, `Kotlin` or `Scala`. Contact us if you would like to use any other language.
